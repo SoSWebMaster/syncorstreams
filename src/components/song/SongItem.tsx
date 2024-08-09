@@ -43,7 +43,6 @@ export default function SongItem({ id, name, artis_name, flt_name, thumb, audio,
    const axiosInstance=useAxios();
    const navigate=useNavigate();
    const {
-      percentage,
       download,
     } = useDownloader();
 
@@ -132,12 +131,12 @@ export default function SongItem({ id, name, artis_name, flt_name, thumb, audio,
     const saveDownloadHistory=async(songId:number)=>{
       try{
          const response =await axiosInstance.post(endPoints?.download, {id:songId})
-         console.log(response,"responseresponseresponseresponse from downlaod2");
          if(response?.data?.result){
             toast.success(`${response?.data?.message}`);
          }
       }catch(error){
-         console.log(error,"errorerrorerrorerror from downlaod2");
+         console.log(error);
+         toast.error(`Something Went wrong`);
       }
 
     }
