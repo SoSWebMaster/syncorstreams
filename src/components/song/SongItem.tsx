@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { SongInterface } from "./songTypes.ts";
 import { PlayIcon, PauseIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import { updateIsPlaying, updateCurrentSongId, updateCurrentVolume } from "../../store/music-store.ts";
@@ -96,6 +96,7 @@ export default function SongItem({ id, name, artis_name, flt_name, thumb, audio,
       } else if( currentSongId !== id ) {
          setIsActive( false )
       }
+      // @ts-ignore  
    }, [currentSongId],afterSongLoaded);
    return(
       <div>

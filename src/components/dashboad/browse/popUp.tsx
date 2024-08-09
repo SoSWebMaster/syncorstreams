@@ -18,13 +18,12 @@ const style = {
    px: 4,
    pb: 3,
 };
-
-const PlaylistPopUp = ({ open, setOpenModalState, setCloseModalState }) => {
-   const handleOpen = () => {
-      if (setOpenModalState) {
-         setOpenModalState();
-      }
-   };
+const PlaylistPopUp = ({ open, setCloseModalState }:any) => {
+   // const handleOpen = () => {
+   //    if (setOpenModalState) {
+   //       setOpenModalState();
+   //    }
+   // };
    const handleClose = () => {
       setCloseModalState();
    };

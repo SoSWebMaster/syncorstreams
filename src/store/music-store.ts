@@ -26,7 +26,7 @@ interface MusicState {
    musicType:string,
    isLoading:boolean,
    sideBar:string,
-   playListFilter:string,
+   playListFilter:string | undefined,
    playLists?:PlayListTypes[],
    single_page?:string,
 }

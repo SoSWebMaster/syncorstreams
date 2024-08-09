@@ -33,7 +33,7 @@ const MusicSectionContent: React.FC<MusicSectionContentProps> =({thumb,artist_na
             stop();
          }
    },[currentSongIdForPagination])
-   const [isLiked, setIsLiked] = useState(false);
+   // const [isLiked, setIsLiked] = useState(false);
  
    const handleLike = async(id:number) => {
       console.log(id,"idididid")

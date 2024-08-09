@@ -30,7 +30,7 @@ const DashboadHeader = () => {
                 <img src={Logo} alt="logo" className='w-[290px] h-[42px]' />
                 <div className='flex justify-end w-full ' >
                     <p className='flex items-center justify-center '> <span> <img src={User} /> </span> Wellcome {user?.name}</p>
-                  
+                       {/* @ts-ignore  */}
                         <ExpandMoreIcon  onClick={handleClick} className='mt-3 ml-2 cursor-pointer '/>
                   
                     <Menu

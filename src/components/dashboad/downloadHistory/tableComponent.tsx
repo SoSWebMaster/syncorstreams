@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faDownload } from "@fortawesome/free-solid-svg-icons"
 import useDownloader from "react-use-downloader";
   import { Box, Button, LinearProgress } from "@mui/material"
-  import ProgressToast from "../../../util/ProgressToast"
 interface DownloadHistory {
     id?:number,
     name?:string,
@@ -17,7 +16,7 @@ interface DownloadHistory {
 const TableComponent = ()=>{
     const [Records,setRecords]=useState<DownloadHistory[]>();
     // let songId:number | null=null;
-    const [songId,setSOngId]=useState(null);
+    const [songId,setSOngId]=useState<number | null>(null);
     const axiosInstance=useAxios();
     const {
         percentage,
@@ -70,7 +69,7 @@ const TableComponent = ()=>{
             setCurrentPage(currentPage +1)
         }
     }
-    const downloadFIle = (url:string, id:number ) => {
+    const downloadFIle = (url:any, id:any ) => {
         console.log(id,"Downloading");
         setSOngId(id);
         console.log(songId,"songId inside");

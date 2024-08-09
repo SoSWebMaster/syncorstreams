@@ -1,6 +1,5 @@
 
 import axios, {
-  AxiosError,
   AxiosResponse,
 } from 'axios';
 import { store } from '../../store';

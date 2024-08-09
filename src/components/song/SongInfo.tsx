@@ -1,5 +1,4 @@
 import { useState, useCallback } from 'react';
-import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle, faXmark } from "@fortawesome/free-solid-svg-icons";
 import Modal from '../../util/Modal';

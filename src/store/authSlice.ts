@@ -45,7 +45,7 @@ export const authSlice = createSlice({
       state.loading = getAPIConstants.PENDING;
     });
     builder.addCase(userLogin.fulfilled, (state, actions) => {
-
+        console.log(state);
         const { id, name, email } = actions?.payload?.data?.user;
       return {
         user:{
@@ -63,7 +63,6 @@ export const authSlice = createSlice({
       };
     });
     builder.addCase(userLogin.rejected, (state, actions) => {
-        console.log(actions,"actions in rejetions")
       return {
         ...state,
         error: actions.payload,

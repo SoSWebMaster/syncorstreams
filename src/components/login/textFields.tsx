@@ -4,9 +4,8 @@ import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Switch from '@mui/material/Switch';
-import { useAppSelector } from "../../store/index";
 import React from "react";
-import { Button, CircularProgress } from "@mui/material";
+import { Button } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { userLogin } from "../../store/authSlice";
 import { useNavigate } from 'react-router-dom';
@@ -15,7 +14,6 @@ const LoginTextFieldsComponent = () => {
    const dispatch=useDispatch();
    const navigate = useNavigate();
    const [showPassword, setShowPassword] = React.useState(false);
-   const [isLoading,setIsLoading] = React.useState(false);
    const [loginDetail,setLoginDetial]=React.useState({
       email:'',
       password:''
@@ -31,12 +29,12 @@ const LoginTextFieldsComponent = () => {
    const handleClickShowPassword = () => setShowPassword((show) => !show);
 
    const loginButton=async ()=>{
-      setIsLoading(true)
-      //ts-ignore
+      // setIsLoading(true)
+      // @ts-ignore
       dispatch(userLogin(loginDetail)).then((result:any) => {
          console.log(result,"sdgdfgfdgfdgfdg")
          if (result?.payload?.data?.redirect) {
-            setIsLoading(false)
+            // setIsLoading(false)
             navigate('/dashboard'); 
          }
        
