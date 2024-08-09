@@ -21,6 +21,8 @@ import { toast } from "react-toastify";
 import useAxios from "../../services/axiosConfig/axiosConfig.ts";
 import { endPoints } from "../../services/constants/endPoint.ts";
 import PlaylistPopUp from "../dashboad/browse/popUp.tsx";
+import useDownloader from "react-use-downloader";
+import { useNavigate } from "react-router-dom";
 const options = [
    'Favorites',
    'Playlist',
@@ -37,7 +39,13 @@ export default function SongItem({ id, name, artis_name, flt_name, thumb, audio,
    const [isAltAccordionActive, setIsAltAccordionActive] = useState( false );
    const { currentSongId, isPlaying, currentDuration,single_page } = useAppSelector( state => state.music );
    const { success } = useAppSelector( state => state.auth );
+   const [songId,setSOngId]=useState<number | null>(null);
    const axiosInstance=useAxios();
+   const navigate=useNavigate();
+   const {
+      percentage,
+      download,
+    } = useDownloader();
 
    const [anchorEl, setAnchorEl] =useState<null | HTMLElement>(null);
    const open = Boolean(anchorEl);
@@ -98,6 +106,41 @@ export default function SongItem({ id, name, artis_name, flt_name, thumb, audio,
       }
       // @ts-ignore  
    }, [currentSongId],afterSongLoaded);
+
+   const downloadFIle = (url:any, id:any ) => {
+      if(success){
+         console.log(id,"Downloading");
+         setSOngId(id);
+         console.log(songId,"songId inside");
+         const fileName=url?.split('/')?.pop();
+         if (!fileName) {
+             toast.error('File could not be determined.');
+             console.error('File name could not be determined.');
+             return;
+         }
+         console.log(fileName);
+         download(url, fileName)
+         toast.info('Downloading Started...');
+
+         saveDownloadHistory(id)
+      }
+      else{
+         navigate('/pricing')
+      }
+   
+    };
+    const saveDownloadHistory=async(songId:number)=>{
+      try{
+         const response =await axiosInstance.post(endPoints?.download, {id:songId})
+         console.log(response,"responseresponseresponseresponse from downlaod2");
+         if(response?.data?.result){
+            toast.success(`${response?.data?.message}`);
+         }
+      }catch(error){
+         console.log(error,"errorerrorerrorerror from downlaod2");
+      }
+
+    }
    return(
       <div>
          <div className="grid grid-cols-[40px_auto_1fr_auto] md:grid-cols-[55px_auto_1fr_1fr_120px_1fr_auto] gap-x-4 md:gap-x-6 items-center p-3 md:p-6 border border-white">
@@ -194,14 +237,14 @@ export default function SongItem({ id, name, artis_name, flt_name, thumb, audio,
                      icon={faMusic}
                   />
                </button>
-               <a
-                  className="inline-block"
-                  href="/pricing"
-               >
+         
+                  <div className="inline-block cursor-pointer">
                   <FontAwesomeIcon
                      icon={faDownload}
+                     onClick={()=>downloadFIle(audio,id)}
                   />
-               </a>
+                  </div>
+                  
                {success&&single_page!=='favorites'  && (
                   <>
                        <IconButton

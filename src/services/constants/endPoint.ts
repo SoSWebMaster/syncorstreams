@@ -11,6 +11,7 @@ export const endPoints = {
     fetch_playlist2:'fetch_playlist2',
     fetch_data2:'/fetch_data2',
     add_to_fav2:'/add_to_fav2',
-    fetch_data_favorites:'/fetch_data_favorites'
+    fetch_data_favorites:'/fetch_data_favorites',
+    download:'/download'
   };
   
