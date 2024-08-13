@@ -7,6 +7,9 @@ import PlaylistComponent from "../components/dashboad/playlist";
 import FavoritesComponent from "../components/dashboad/favorites";
 import DownloadHistoryComponent from "../components/dashboad/downloadHistory";
 import NewReleases from "../components/dashboad/newReleases";
+import BillingDetail from "../components/dashboad/menus/billingDetail/billingDetail";
+import MyPlan from "../components/dashboad/menus/myPlan/myPlan";
+import UpdatePlan from "../components/dashboad/menus/updatePlan/updatePlan";
 const DashboardPage=()=>{
     const { sideBar } = useAppSelector( state => state.music);
 
@@ -21,6 +24,9 @@ const DashboardPage=()=>{
                 <FavoritesComponent/> :sideBar==='playlist' ? 
                 <PlaylistComponent/>:sideBar==='copyright' ? 
                 <CopyrightComponent/>:  sideBar==='newrelease' ?<NewReleases/> :
+                sideBar==='billing'? <BillingDetail/> : 
+                sideBar==='myplan'? <MyPlan/> :
+                sideBar==='update-plan'? <UpdatePlan/>:
                 <BrowserComponent/>}
             </DashboardComponent>
         </div>

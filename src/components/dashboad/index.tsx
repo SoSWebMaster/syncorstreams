@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import DashboadHeader from "./dashboadHeader";
 import SideBarComponent from "./sideBarComponent";
 import FooterComponent from "../footer/footer";
@@ -7,6 +7,7 @@ type DashboardProps = {
   };
 
 const DashboardComponent: React.FC<DashboardProps>=({children})=>{
+
     return (
         <>
           <div className="w-full h-[120px] bg-[#2D2D2D] mt-5">
@@ -22,8 +23,8 @@ const DashboardComponent: React.FC<DashboardProps>=({children})=>{
                 </div>
                 
             </div>
-    
-                <FooterComponent/>          
+            <FooterComponent/>   
+               
         </>
     )
 
