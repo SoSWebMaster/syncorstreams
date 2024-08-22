@@ -13,15 +13,15 @@ const LoginForm=()=>{
                     <a className="">
                         <img src={logo} alt="" className='2xl:w-[290px] xl:w-[220px] lg:w-[180px] 2xl:h-[42px] xl:h-[32px]'/>
                     </a>
-                        <p className='text-[14px] mt-5 lg:ml-32'>Don’t have an account? <span className='text-[14px] font-bold !pl-1'><Link to='/signup'> Sign up!</Link> </span></p>
+                        <p className='text-[14px] mt-5 lg:ml-32'>Don’t have an account? <span className='text-[14px] font-bold !pl-1'><Link to='/pricing'> Sign up!</Link> </span></p>
                     </div>
                     <div className='text-center'>
                         <LoginContent/>
                     </div>
                 
                 </div>
-                <div  className="absolute right-0 2xl:w-[32%] xl:w-[45%] lg:w-[45%]">
-                    <img src={SideImg} alt="" className='h-[100vh] relative !w-full'/>
+                <div  className=" !h-[100vh] absolute right-0 2xl:w-[34%] xl:w-[45%] lg:w-[45%]">
+                    <img src={SideImg} alt="" className='!h-[100vh] relative !w-full'/>
                     <div className="absolute bottom-12 w-[90%] left-12 h-[25%] ">
                         <div className="!bg-[url('public/static/images/Rectangle-side.png')] w-[90%] !h-full">
                             <div className='xl:p-10 sm:p-5'>

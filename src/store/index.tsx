@@ -9,7 +9,7 @@ import  music  from './music-store';
 import { useDispatch, useSelector, TypedUseSelectorHook } from "react-redux";
 const persistConfig = {
   key: 'syn_or_stream',
-  whitelist: ['auth',],
+  whitelist: ['auth','music'],
   storage,
 };
 

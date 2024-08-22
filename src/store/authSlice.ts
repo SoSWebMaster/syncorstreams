@@ -41,11 +41,10 @@ export const authSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(userLogin.pending, (state) => {
-        console.log(state,"Loading actions in pending");
       state.loading = getAPIConstants.PENDING;
     });
     builder.addCase(userLogin.fulfilled, (state, actions) => {
-        console.log(state);
+
         const { id, name, email } = actions?.payload?.data?.user;
       return {
         user:{

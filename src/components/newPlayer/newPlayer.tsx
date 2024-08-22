@@ -43,7 +43,6 @@ const NewPlayer = () => {
             }
          );
          const records = response?.data?.records;
-         console.log(records,"records")
          if (records) {
             dispatch(updateIsLoading(true));
             setSongs(records);
@@ -53,7 +52,7 @@ const NewPlayer = () => {
          console.error("unable to fetch songs!!!");
       }
    }, [setSongs, songType, filterCategories, search, isLoading]);
-   // @ts-ignore
+
    let firstSongId: number | string | null = null;
    let allSongs = {};
    const items = songs.map((song, i) => {

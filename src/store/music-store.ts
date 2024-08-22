@@ -26,9 +26,14 @@ interface MusicState {
    musicType:string,
    isLoading:boolean,
    sideBar:string,
-   playListFilter:string | undefined,
+   playListFilter:string,
    playLists?:PlayListTypes[],
    single_page?:string,
+   plain_Id?:null| number,
+   plain_MonthlyPrice?:null | number,
+   plain_AnnualPrice?:null | number,
+   pageNameId?:null | number,
+   userId?:null | number;
 }
 
 const initialState: MusicState = {
@@ -49,7 +54,12 @@ const initialState: MusicState = {
    sideBar:'browse',
    playListFilter:'',
    playLists:[],
-   single_page:''
+   single_page:'',
+   plain_Id:null,
+   plain_MonthlyPrice:null,
+   plain_AnnualPrice:null,
+   pageNameId:null,
+   userId:null
 }
 
 export  const musicSlice = createSlice({
@@ -142,6 +152,22 @@ export  const musicSlice = createSlice({
       updateSinglePage: ( state, action: PayloadAction<MusicState['single_page']> ) => {
          state.single_page = action.payload;
       },
+      updatePlainId: ( state, action: PayloadAction<MusicState['plain_Id']> ) => {
+         state.plain_Id = action.payload;
+      },
+      updatePlainMonthlyPrice: ( state, action: PayloadAction<MusicState['plain_MonthlyPrice']> ) => {
+         state.plain_MonthlyPrice = action.payload;
+      },
+      updatePlainAnnualPrice: ( state, action: PayloadAction<MusicState['plain_AnnualPrice']> ) => {
+         state.plain_AnnualPrice = action.payload;
+      },
+      updatePageNameId: ( state, action: PayloadAction<MusicState['pageNameId']> ) => {
+         state.pageNameId = action.payload;
+      },
+
+      updateUserId: ( state, action: PayloadAction<MusicState['userId']> ) => {
+         state.userId = action.payload;
+      },
    }
 
 });
@@ -149,7 +175,7 @@ export  const musicSlice = createSlice({
 export const {
       updateCurrentSongId, updateCurrentSongIdForPagination, updateCurrentSong, updateFirstSongId, updateIsPlaying, updateCurrentDuration, updateCurrentDurationSeek, updateAllSongs,
       nextSong, prevSong,updateIsLoading, updateCurrentVolume, updateSongType, updateFilterCategories, updateSearch,updateMusicType,updateSideBar,updatePlayListFilter,
-      updatePlayLists,updateSinglePage
+      updatePlayLists,updateSinglePage,updatePlainId,updatePlainMonthlyPrice,updatePlainAnnualPrice,updatePageNameId,updateUserId
    } = musicSlice.actions;
 
 

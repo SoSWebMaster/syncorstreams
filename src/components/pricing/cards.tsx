@@ -1,7 +1,41 @@
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SuitCase from '/static/images/suitcase.png'
+import axiosInstance from "../../services/axiosConfig/axiosConfigSimple"; 
+import { endPoints } from "../../services/constants/endPoint";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../store";
+import { updatePlainAnnualPrice, updatePlainId, updatePlainMonthlyPrice } from "../../store/music-store";
+
+interface PlanDetailsProps {
+   id: number;
+   plan_name: string;
+   mailchimp_tag: string;
+   sub_heading: string;
+   feature_heading: string;
+   features: [];
+   stripe_pid: string;
+   month_price: number;
+   month_price_skey: string;
+   year_price: number;
+   year_price_skey: string;
+   free_months: number;
+   free_months_text: string;
+   trial_period: number;
+   sort_order: number;
+   is_active: number;
+ }
 const PricingCards = () => {
+   
+   const [pricingData, setPricingData] = useState<PlanDetailsProps[]>();
+   const navigate = useNavigate();
+   const dispatch=useAppDispatch();
+   useEffect(() => {
+      // Function to fetch pricing data from the API
+      fetchPricingData();
+    }, []);
+
    const List = {
       streamer: [
          "Unlimited streaming",
@@ -13,19 +47,62 @@ const PricingCards = () => {
       Freelancer:['MP3 and WAV downloads','Ability to download stems','Commercial-Use license for client work and broadcast','25% off custom music requests'],
       Business:['Dedicated customer service representative and contact information','Access to exclusive, unreleased tracks','Playlists tailored to your requests/briefs','Custom music requests and custom SFX/foley/sound design services']
    };
+
+   const fetchPricingData = async () => {
+      try {
+        const response = await axiosInstance.get(endPoints.pricing);
+        if(response?.data){
+         const data = response?.data.data;
+         setPricingData(data);
+        }
+      } catch (error) {
+
+      }
+    };
+
+    const selectPlan = async (planId:number,m_price:number) => {
+      console.log(planId,"planId")
+      dispatch(updatePlainId(planId));
+      dispatch(updatePlainMonthlyPrice(m_price))
+      dispatch(updatePlainAnnualPrice(null))
+      navigate('/signup')
+      // try {
+      //    const response = await axiosInstance.post(endPoints.select_plan, { plan_id: planId });
+      //    if (response.status === 200) {
+      //       navigate('/checkout');
+      //    }
+      // } catch (error) {
+      //    console.error('Error selecting plan:', error);
+      // }
+   };
+
+    const stripHtmlTags = (htmlString: string) => {
+      const div = document.createElement('div');
+      div.innerHTML = htmlString;
+      return div.textContent || div.innerText || '';
+    };
+  
+
+    if (!pricingData) {
+      return <div>Loading...</div>;
+    }
+
    return (
       <>
          <div className="relative flex justify-between bottom-32">
-            <div className=" group w-[340px] h-auto bg-black py-8 px-6 rounded-2xl hover:!bg-background-gradient hover:!scale-110 transition-transform duration-500 mr-3">
-               <p className="text-[20px] font-medium">Streamer</p>
+
+         { pricingData.length > 0 &&
+         pricingData?.map((item, index) => (
+            <div className=" group w-[340px] h-auto bg-black py-8 px-6 rounded-2xl hover:!bg-background-gradient hover:!scale-110 transition-transform duration-500 mr-3" key={`${index}+ ${item}`}>
+               <p className="text-[20px] font-medium">{item?.plan_name}</p>
                <p className="text-[36px] font-bold flex items-center">
-                  $6{" "}
-                  <span className="text-[16px] text-[#848199] ml-2 ">
+                  {"$"+item?.month_price}
+                  <span className="text-[16px] text-[#848199] ml-1">
                      / month
                   </span>
                </p>
-               <p className="text-[#848199] text-[12px] pt-1">
-                  For the creative that lives to go live.
+               <p className="text-[#848199] text-[12px] pt-1 !h-10">
+                  {item?.sub_heading}
                </p>
                <div className="flex justify-center mt-3">
                   <p className="relative bottom-1">__________</p>
@@ -33,7 +110,7 @@ const PricingCards = () => {
                   <p className="relative bottom-1">__________</p>
                </div>
                <p className="text-[12px] font-semibold text-center mt-1">
-                  $66/year (one free month)
+                  {"$"+item?.year_price + "/year (one free month)"}
                </p>
                <div className="flex justify-center ">
                   <p className="relative bottom-1">__________</p>
@@ -43,7 +120,7 @@ const PricingCards = () => {
                <p className="text-[16px] font-normal  mt-10">
                   This Plan Includes
                </p>
-               {List?.streamer?.map((item, index) => (
+               {item?.features?.map((item, index) => (
                   <div
                      className="flex items-center "
                      key={`${index} + ${item}`}
@@ -55,112 +132,17 @@ const PricingCards = () => {
                         />
                      </div>
                      <p className="text-[#A8A8A8] text-[10px] ml-5 mt-3">
-                        {item}
+                        {stripHtmlTags(item)}
                      </p>
                   </div>
                ))}
-               <button className="w-full h-[54px] !bg-[#0714BD] group-hover:!bg-[#FB8A2E]   text-white rounded-lg mt-5">
-                  Free Trial
+               <button className="w-full h-[54px] !bg-[#0714BD] group-hover:!bg-[#FB8A2E]   text-white rounded-lg mt-5"
+               onClick={() => selectPlan(item.id,item?.month_price)} // Add onClick handler to call selectPlan with plan_id
+               >
+                  {item?.mailchimp_tag}
                </button>
             </div>
-            {/* Second Cards */}
-            <div className=" group w-[340px] h-auto bg-black py-8 px-6 rounded-2xl hover:!bg-background-gradient hover:!scale-110 transition-transform duration-500 mr-3">
-               <p className="text-[20px] font-medium">Content Creator</p>
-               <p className="text-[24px] font-bold flex items-center">
-                  $10
-                  <span className="text-[16px] text-[#848199] ml-2 ">
-                     / month
-                  </span>
-               </p>
-               <p className="text-[#848199] text-[12px] pt-1">
-               Filmmakers, YouTubers, and creators who need a little bit more.
-               </p>
-               <div className="flex justify-center mt-3">
-                  <p className="relative bottom-1">__________</p>
-                  <p className="mx-3 text-center text-[#848199]">or</p>
-                  <p className="relative bottom-1">__________</p>
-               </div>
-               <p className="text-[12px] font-semibold text-center mt-1">
-               $100/year (two free months)
-               </p>
-               <div className="flex justify-center ">
-                  <p className="relative bottom-1">__________</p>
-                  <p className="mx-3 text-center text-[#848199]">or</p>
-                  <p className="relative bottom-1">__________</p>
-               </div>
-               <p className="text-[16px] font-normal  mt-8">
-                  This Plan Includes
-               </p>
-               {List?.Creator?.map((item, index) => (
-                  <div
-                     className="flex items-center "
-                     key={`${index} + ${item}`}
-                  >
-                     <div className="w-5 h-5 bg-[#282828] group-hover:!bg-[#4E3D32] rounded-full flex items-center justify-center p-2 mt-3">
-                        <FontAwesomeIcon
-                           icon={faCheck}
-                           className="cursor-pointer text-[#FB8A2E] w-3 "
-                        />
-                     </div>
-                     <p className="text-[#A8A8A8] text-[10px] ml-5 mt-3">
-                        {item}
-                     </p>
-                  </div>
-               ))}
-               <button className="w-full h-[54px] !bg-[#0714BD] group-hover:!bg-[#FB8A2E]   text-white rounded-lg mt-5">
-                  Free Trial
-               </button>
-            </div>
-
-            {/* THird Card */}
-            <div className=" group w-[340px] h-auto bg-black py-8 px-6 rounded-2xl hover:!bg-background-gradient hover:!scale-110 transition-transform duration-500 mr-3">
-               <p className="text-[20px] font-medium">Freelancer</p>
-               <p className="text-[24px] font-bold flex items-center">
-                  $20
-                  <span className="text-[16px] text-[#848199] ml-2 ">
-                     / month
-                  </span>
-               </p>
-               <p className="text-[#848199] text-[12px] pt-1">
-               Got clients? All the audio and licenses you'll ever need.
-               </p>
-               <div className="flex justify-center mt-3">
-                  <p className="relative bottom-1">__________</p>
-                  <p className="mx-3 text-center text-[#848199]">or</p>
-                  <p className="relative bottom-1">__________</p>
-               </div>
-               <p className="text-[12px] font-semibold text-center mt-1">
-               $180/year (one free month)
-               </p>
-               <div className="flex justify-center ">
-                  <p className="relative bottom-1">__________</p>
-                  <p className="mx-3 text-center text-[#848199]">or</p>
-                  <p className="relative bottom-1">__________</p>
-               </div>
-               <p className="text-[16px] font-normal  mt-8">
-                  This Plan Includes
-               </p>
-               {List?.Freelancer?.map((item, index) => (
-                  <div
-                     className="flex items-center "
-                     key={`${index} + ${item}`}
-                  >
-                     <div className="w-5 h-5 bg-[#282828] group-hover:!bg-[#4E3D32] rounded-full flex items-center justify-center p-2 mt-3">
-                        <FontAwesomeIcon
-                           icon={faCheck}
-                           className="cursor-pointer text-[#FB8A2E] w-3 "
-                        />
-                     </div>
-                     <p className="text-[#A8A8A8] text-[10px] ml-5 mt-3">
-                        {item}
-                     </p>
-                  </div>
-               ))}
-               <button className="w-full h-[54px] !bg-[#0714BD] group-hover:!bg-[#FB8A2E]   text-white rounded-lg mt-5">
-                  Free Trial
-               </button>
-            </div>
-
+         ))}
             {/* Fourth Card */}
 
             <div className=" group w-[340px] h-auto bg-black py-8 px-6 rounded-2xl hover:!bg-background-gradient hover:!scale-110 transition-transform duration-500">

@@ -4,23 +4,25 @@ import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Switch from '@mui/material/Switch';
+import { useAppSelector } from "../../store/index";
 import React from "react";
-import { Button } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { userLogin } from "../../store/authSlice";
 import { useNavigate } from 'react-router-dom';
+import { updatePlainMonthlyPrice } from "../../store/music-store";
 
 const LoginTextFieldsComponent = () => {
    const dispatch=useDispatch();
    const navigate = useNavigate();
    const [showPassword, setShowPassword] = React.useState(false);
+   const [isLoading,setIsLoading] = React.useState(false);
    const [loginDetail,setLoginDetial]=React.useState({
       email:'',
       password:''
    })
    const inputValues=(e: React.ChangeEvent<HTMLInputElement>)=>{
       const {name,value}=e.target;
-      console.log(name,value)
       setLoginDetial(prevState=>({
          ...prevState,
          [name]:value
@@ -29,16 +31,23 @@ const LoginTextFieldsComponent = () => {
    const handleClickShowPassword = () => setShowPassword((show) => !show);
 
    const loginButton=async ()=>{
-      // setIsLoading(true)
-      // @ts-ignore
+      setIsLoading(true)
+      //ts-ignore
       dispatch(userLogin(loginDetail)).then((result:any) => {
-         console.log(result,"sdgdfgfdgfdgfdg")
-         if (result?.payload?.data?.redirect) {
-            // setIsLoading(false)
-            navigate('/dashboard'); 
+         const link = result?.payload?.data?.link;
+         if (result?.payload?.data?.link) {
+            if(result?.payload?.data?.link==="/dashboard"){
+               setIsLoading(false)
+               navigate(link); 
+            }
+            else{
+               setIsLoading(false)
+               dispatch(updatePlainMonthlyPrice(result?.payload?.data?.plan_amount))
+               navigate(link); 
+            }
+         
          }
-       
-     })
+     });
    }
    return (
       <>

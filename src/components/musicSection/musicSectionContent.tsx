@@ -33,10 +33,9 @@ const MusicSectionContent: React.FC<MusicSectionContentProps> =({thumb,artist_na
             stop();
          }
    },[currentSongIdForPagination])
-   // const [isLiked, setIsLiked] = useState(false);
+   const [isLiked, setIsLiked] = useState(false);
  
    const handleLike = async(id:number) => {
-      console.log(id,"idididid")
       try{
          const response= await axiosInstanceAuth?.post(endPoints?.add_to_fav2, {
             id: id,

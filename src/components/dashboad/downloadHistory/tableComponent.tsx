@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faDownload } from "@fortawesome/free-solid-svg-icons"
 import useDownloader from "react-use-downloader";
   import { Box, Button, LinearProgress } from "@mui/material"
+  import ProgressToast from "../../../util/ProgressToast"
 interface DownloadHistory {
     id?:number,
     name?:string,
@@ -16,7 +17,7 @@ interface DownloadHistory {
 const TableComponent = ()=>{
     const [Records,setRecords]=useState<DownloadHistory[]>();
     // let songId:number | null=null;
-    const [songId,setSOngId]=useState<number | null>(null);
+    const [songId,setSOngId]=useState(null);
     const axiosInstance=useAxios();
     const {
         percentage,
@@ -27,8 +28,6 @@ const TableComponent = ()=>{
     },[])
     useEffect(()=>{
         if(percentage==100){
-            console.log(songId,"songId")
-            console.log("Size 10 ho gya")
             updateDate();
         }
     })
@@ -36,7 +35,6 @@ const TableComponent = ()=>{
         try{
             const response= await axiosInstance.get(endPoints?.download_records_With_Out_UserId);
             if(response?.data){
-                console.log(response?.data,"response?.data")
                 setRecords(response?.data)
             }else{
                 toast.error('Data Not Found!');
@@ -69,24 +67,20 @@ const TableComponent = ()=>{
             setCurrentPage(currentPage +1)
         }
     }
-    const downloadFIle = (url:any, id:any ) => {
-        console.log(id,"Downloading");
+    const downloadFIle = (url:string, id:number ) => {
         setSOngId(id);
-        console.log(songId,"songId inside");
         const fileName=url?.split('/')?.pop();
         if (!fileName) {
             toast.error('File could not be determined.');
             console.error('File name could not be determined.');
             return;
         }
-        console.log(fileName);
         download(url, fileName)
         toast.info('Downloading Started...');
       };
       const updateDate=async () => {
             try{
                 const response=await axiosInstance.put(`${endPoints?.update_Date_in_download_history}/${songId}`);
-                console.log(response?.data,"responseresponse")
                 if(response?.data?.success){
                     toast.success(`${response?.data?.message}`);
                     RecordsFetch();

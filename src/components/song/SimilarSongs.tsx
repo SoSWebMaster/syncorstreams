@@ -31,7 +31,9 @@ export default function SimilarSongs({ id, name, toggle }: AltSongsProps ) {
             id,
             post: 1,
             single: 'syncorstream.com',
+            per_page: 10,
             user: 155,
+            source:'react'
          });
 
          const data = response.data.records;

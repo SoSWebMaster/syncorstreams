@@ -16,3 +16,11 @@ export type userTypes={
     email?: string,
     access_token?:string
 }
+
+export interface PlayListTypes {
+  id?: number;
+  user_id?: number;
+  name?: string;
+  tcount?: number;
+  song_id?: number; // Assuming song_id is part of PlayListTypes
+}

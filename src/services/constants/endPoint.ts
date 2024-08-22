@@ -12,6 +12,17 @@ export const endPoints = {
     fetch_data2:'/fetch_data2',
     add_to_fav2:'/add_to_fav2',
     fetch_data_favorites:'/fetch_data_favorites',
+    add_playlist:'/add_playlist',
+    signup:'/signup',
+    profile:'/profile',
+    update_profile:'/update_profile',
+    pricing:'/pricing',
+    select_plan: 'pricing/selectPlan',
+    oauth_provider: 'oauth',
+    billing: 'billing',
+    current_plan: 'current_plan',
+    contact_submit: 'contact_submit',
+    submit_payment: 'submit_payment',
     download:'/download'
   };
   

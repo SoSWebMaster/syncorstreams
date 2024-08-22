@@ -26,16 +26,13 @@ export default function Songs({ className }: SongsProps ) {
    const dispatch = useAppDispatch();
    const axiosInstanceAuth=useAxios();
 
- 
-
    const fetchSongs = useCallback( async () => {
       setHasError( false );
       setIsLoading( true );
-
       try{
          let response;
          if(success && user?.id && single_page==='playlist' ){
-           const pageName= playLists?.find((item)=>item?.name===playListFilter)
+           const pageName= playLists?.find((item)=>item?.name==playListFilter)
              response = await axiosInstanceAuth.post( endPoints?.fetch_data2, {
                post: songType,
                page: currentPage,
@@ -60,7 +57,6 @@ export default function Songs({ className }: SongsProps ) {
             });
          }
          else{
-            console.log("IN else conditon")
             response = await axiosInstance.post( endPoints?.fetch_music_json, {
                post: songType,
                page: currentPage,
@@ -69,6 +65,7 @@ export default function Songs({ className }: SongsProps ) {
                per_page: perPage,
                user:155,
                search,
+               source:'react'
             });
          }
             const result = response;
@@ -97,7 +94,7 @@ export default function Songs({ className }: SongsProps ) {
          setHasError( true );
          setIsLoading( false );
       }
-   }, [setSongs, setIsLoading, currentPage, songType, filterCategories, search]);
+   }, [setSongs, setIsLoading, currentPage, songType, filterCategories, search,playListFilter]);
 
    const loadMoreSongs = useCallback( async () => {
       setIsLoading2(true)
@@ -109,6 +106,7 @@ export default function Songs({ className }: SongsProps ) {
             categories: filterCategories.toString(),
             per_page: perPage,
             user: 155,
+            source:'react'
          });
 
          const result = response;

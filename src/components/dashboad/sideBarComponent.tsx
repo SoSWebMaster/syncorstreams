@@ -13,11 +13,11 @@ const Content = [
       search:'browse',
       icon:Menu
    },
-   {
-      name: "New Releases",
-      search:'newrelease',
-      icon:Menu2
-   },
+   // {
+   //    name: "New Releases",
+   //    search:'newrelease',
+   //    icon:Menu2
+   // },
    {
       name: "Playlist",
       search:'playlist',

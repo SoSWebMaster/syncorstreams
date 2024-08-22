@@ -9,8 +9,8 @@ const SignUpComponent = () => {
    return (
       <>
          <div className="flex justify-end  !h-[100vh]" style={{ backgroundImage: `url(${bgImage})` }}>
-            <div className="absolute left-0 top-0 2xl:w-[32%] xl:w-[45%] lg:w-[45%] ">
-               <img src={SideImage} alt="sideImage" className=" h-[100vh]" />
+            <div className="absolute left-0 top-0 2xl:w-[32%] xl:w-[45%] lg:w-[45%] !h-[100vh] ">
+               <img src={SideImage} alt="sideImage" className=" !h-[100vh]" />
                <div className="absolute pt-1 pl-8 top-7 left-5 rounded-3xl">
                   <img src={Logo} className="w-[300px] h-[50px]" />
                </div>

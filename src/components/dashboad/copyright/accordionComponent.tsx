@@ -67,7 +67,6 @@ const AccordionComponent = () => {
           toast.success(`${response?.data?.message}`);
         }
     }catch(err) {
-      console.log(err);
       toast.error("Error occurred while saving data!");
     }
   } 

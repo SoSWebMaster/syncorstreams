@@ -46,7 +46,6 @@ export default function SongItem2({
 
    const handlePrev = () => {
       if (swiperRef && swiperRef.current && swiperRef.current?.swiper) {
-         console.log(isActive,"isActive")
          setIsActive(false);
          swiperRef.current?.swiper.slidePrev();
 

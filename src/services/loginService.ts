@@ -8,10 +8,8 @@ export const login = async (data: inputType) => {
   try {
     const response = await axiosInstance.post(endPoints.login, data);
     return response;
-  } catch (error:any) {
-       
+  } catch (error) {
     if(error?.response?.data?.errors){
-      
         toast.error(error?.response?.data?.errors?.email[0]);
     }
     else{
